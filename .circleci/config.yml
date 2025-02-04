@@ -9,5 +9,3 @@ workflows:
           image: node-js-sample
           tag: latest
           deploy: true
-          docker-username: $DOCKER_LOGIN
-          docker-password: $DOCKER_PASSWORD
