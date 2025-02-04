@@ -10,6 +10,19 @@ jobs:
       - run:
           name: "Build docker image"
           command: "docker build -t node-js-sample ."
+      - run:
+          name: "Run docker container"
+          command: "docker run -d -p 8080:8080 node-js-sample"
+      - run:
+          name: "Run tests"
+          command: |
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8081)
+            if [ "$HTTP_STATUS" -ne 200 ]; then
+              echo "Unexpected HTTP status: $HTTP_STATUS"
+              exit 1
+            fi
+            echo "Service responded with HTTP 200 OK"
+
 
 workflows:
   node-js-sample-workflow:
