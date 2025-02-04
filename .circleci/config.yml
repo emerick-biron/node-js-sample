@@ -6,6 +6,6 @@ workflows:
   node-js-sample-workflow:
     jobs:
       - docker/publish:
-          image: node-js-sample
+          image: $DOCKER_LOGIN/node-js-sample
           tag: latest
           deploy: true
