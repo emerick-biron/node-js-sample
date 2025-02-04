@@ -27,9 +27,9 @@ jobs:
       - run:
           name: "Publish docker image"
           command: |
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-            docker tag node-js-sample $DOCKER_USERNAME/node-js-sample:latest
-            docker push $DOCKER_USERNAME/node-js-sample:latest
+            echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
+            docker tag node-js-sample $DOCKER_LOGIN/node-js-sample:latest
+            docker push $DOCKER_LOGIN/node-js-sample:latest
 
 workflows:
   node-js-sample-workflow:
