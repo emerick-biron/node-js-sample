@@ -8,4 +8,3 @@ workflows:
       - docker/publish:
           image: $DOCKER_LOGIN/node-js-sample
           tag: latest
-          deploy: true
