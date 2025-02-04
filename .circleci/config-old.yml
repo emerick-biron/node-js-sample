@@ -1,0 +1,37 @@
+version: 2.1
+
+jobs:
+  build-test-publish:
+    machine:
+      image: ubuntu-2404:current
+    steps:
+      - checkout
+      - run:
+          name: "Build docker image"
+          command: "docker build -t node-js-sample ."
+      - run:
+          name: "Run docker container"
+          command: "docker run -d -p 8080:8080 node-js-sample"
+      - run:
+          name: "Run tests"
+          command: |
+            sleep 5
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
+            echo "HTTP_STATUS: $HTTP_STATUS"
+            if [ "$HTTP_STATUS" -ne 200 ]; then
+              echo "Unexpected HTTP status: $HTTP_STATUS"
+              curl -s http://localhost:8080
+              exit 1
+            fi
+            echo "Service responded with HTTP 200 OK"
+      - run:
+          name: "Publish docker image"
+          command: |
+            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+            docker tag node-js-sample $DOCKERHUB_USERNAME/node-js-sample:latest
+            docker push $DOCKERHUB_USERNAME/node-js-sample:latest
+
+workflows:
+  node-js-sample-workflow:
+    jobs:
+      - build-test-publish
