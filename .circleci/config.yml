@@ -1,23 +1,11 @@
 version: 2.1
 orbs:
   docker: circleci/docker@2.8.2
-jobs:
-  build-push:
-    executor: docker/docker
-    steps:
-      - setup_remote_docker
-      - checkout
-      - docker/check
-      - docker/build:
-          image: $DOCKERHUB_USERNAME/node-js-sample:latest
-      - docker/push:
-          digest-path: /tmp/digest.txt
-          image: $DOCKERHUB_USERNAME/node-js-sample:latest
-      - run:
-          command: |
-            echo "Digest is: $(</tmp/digest.txt)"
 
 workflows:
   node-js-sample-workflow:
     jobs:
-      - build-push
+      - docker/publish:
+          image: node-js-sample
+          tag: latest
+          publish: true
