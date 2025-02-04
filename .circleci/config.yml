@@ -1,0 +1,17 @@
+version: 2.1
+
+jobs:
+  build:
+    machine:
+      image: ubuntu-2404:current
+
+    steps:
+      - checkout
+      - run:
+          name: "Build docker image"
+          command: "docker build -t node-js-sample ."
+
+workflows:
+  node-js-sample-workflow:
+    jobs:
+      - build
