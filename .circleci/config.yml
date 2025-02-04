@@ -17,6 +17,8 @@ jobs:
           name: "Run tests"
           command: |
             sleep 5
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
+            echo "HTTP_STATUS: $HTTP_STATUS"
             curl -sSf http://localhost:8080/ || exit 1
 
 
