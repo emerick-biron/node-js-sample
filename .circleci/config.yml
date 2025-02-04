@@ -19,6 +19,13 @@ jobs:
             sleep 5
             HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
             echo "HTTP_STATUS: $HTTP_STATUS"
+            if [ "$HTTP_STATUS" -ne 200 ]; then
+              echo "Unexpected HTTP status: $HTTP_STATUS"
+              curl -s http://localhost:8080
+              exit 1
+            fi
+            echo "Service responded with HTTP 200 OK"
+
             curl -sSf http://localhost:8080/ || exit 1
 
 
