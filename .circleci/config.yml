@@ -26,9 +26,6 @@ jobs:
             fi
             echo "Service responded with HTTP 200 OK"
 
-            curl -sSf http://localhost:8080/ || exit 1
-
-
 
 workflows:
   node-js-sample-workflow:
