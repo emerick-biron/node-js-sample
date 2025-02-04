@@ -1,10 +1,9 @@
 version: 2.1
 
 jobs:
-  build:
+  build-test-publish:
     machine:
       image: ubuntu-2404:current
-
     steps:
       - checkout
       - run:
@@ -25,9 +24,14 @@ jobs:
               exit 1
             fi
             echo "Service responded with HTTP 200 OK"
-
+      - run:
+          name: "Publish docker image"
+          command: |
+            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+            docker tag node-js-sample $DOCKER_USERNAME/node-js-sample:latest
+            docker push $DOCKER_USERNAME/node-js-sample:latest
 
 workflows:
   node-js-sample-workflow:
     jobs:
-      - build
+      - build-test-publish
