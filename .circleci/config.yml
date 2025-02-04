@@ -28,7 +28,7 @@ jobs:
           name: "Publish docker image"
           command: |
             echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
-            docker tag node-js-sample $DOCKER_USERNAME/node-js-sample:latest
+            docker tag node-js-sample $DOCKERHUB_USERNAME/node-js-sample:latest
             docker push $DOCKERHUB_USERNAME/node-js-sample:latest
 
 workflows:
